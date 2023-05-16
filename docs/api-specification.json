@@ -1,0 +1,126 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/AvantPeople/ExamPractise/1.0.0"
+  } ],
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Exam Practise API",
+    "description" : "This is the Exam practise API specification"
+  },
+  "security" : [ {
+    "basicAuth" : [ ]
+  }, {
+    "bearerAuth" : [ ]
+  } ],
+  "paths" : {
+    "/api/signup" : {
+      "post" : {
+        "summary" : "Create a new user",
+        "description" : "Creates a new user",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "CREATED"
+          }
+        }
+      }
+    },
+    "/api/login" : {
+      "get" : {
+        "summary" : "Get a token for a user",
+        "description" : "This get call retrives a JWT token for a user.",
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "DENIED"
+          }
+        }
+      }
+    },
+    "/api/logout" : {
+      "post" : {
+        "summary" : "Log out a user",
+        "description" : "Logs out a user by invalidating their token and refresh token. Matches token in security to token tables and expires it if it has not already expired.",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "SUCCESSFUL"
+          },
+          "404" : {
+            "description" : "USER NOT FOUND"
+          },
+          "500" : {
+            "description" : "SERVER ERROR"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "basicAuth" : {
+        "description" : "Used for passing username and password to server for login",
+        "type" : "http",
+        "scheme" : "basic"
+      },
+      "bearerAuth" : {
+        "description" : "Used for passing Auth token once logged in",
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    },
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "required" : [ "email", "password", "userType" ],
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "lastname" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "usertype" : {
+            "type" : "string",
+            "enum" : [ "student" ]
+          }
+        },
+        "example" : {
+          "email" : "billybob@example.com",
+          "username" : "billybob",
+          "firstname" : "Billy",
+          "lastname" : "Bob",
+          "password" : "ex@mplePW123",
+          "usertype" : "student"
+        }
+      }
+    }
+  }
+}
